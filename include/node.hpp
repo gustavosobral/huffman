@@ -23,6 +23,8 @@ public:
 	Node* getRight(void);
 	Node* getParent(void);
 
+	void setParent(Node * parent);
+	
 	void reduceFrequency(void);
 	static void resetCounter(void);
 };

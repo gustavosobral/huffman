@@ -54,6 +54,11 @@ Node* Node::getParent(void)
 	return parent;
 }
 
+void Node::setParent(Node * parent)
+{
+	this->parent = parent;
+}
+
 void Node::reduceFrequency(void)
 {
 	frequency = frequency - 1;
