@@ -1,29 +1,37 @@
 #include "../include/node.hpp"
 
-Node::Node(int frequency)
-{
-	this->frequency = frequency;
-}
+int Node::counter = 256;
 
-Node::Node(char id, int frequency)
+Node::Node(char carac, int frequency, Node * left, Node * right, Node * parent)
 {
-	this->id = id;
-	this->frequency = frequency;
-}
-
-Node::Node(char id, int frequency, Node *left, Node *right)
-{
-	this->id = id;
+	this->id = counter++;
+	this->carac = carac;
 	this->frequency = frequency;
 	this->left = left;
 	this->right = right;
+	this->parent = parent;
+}
+
+Node::Node(int id, char carac, int frequency, Node * left, Node * right, Node * parent)
+{
+	this->id = id;
+	this->carac = carac;
+	this->frequency = frequency;
+	this->left = left;
+	this->right = right;
+	this->parent = parent;
 }
 
 Node::~Node(void){}
 
-char Node::getId(void)
+int Node::getId(void)
 {
 	return id;
+}
+
+char Node::getCarac(void)
+{
+	return carac;
 }
 
 int Node::getFrequency(void)
@@ -41,7 +49,17 @@ Node* Node::getRight(void)
 	return right;
 }
 
+Node* Node::getParent(void)
+{
+	return parent;
+}
+
 void Node::reduceFrequency(void)
 {
 	frequency = frequency - 1;
+}
+
+void Node::resetCounter(void)
+{
+	counter = 256;
 }
