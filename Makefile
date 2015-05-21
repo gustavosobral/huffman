@@ -2,7 +2,7 @@ CC=g++
 DEPS=include/*.hpp
 
 all: src/main.cpp
-	$(CC) src/*.cpp -o huffman
+	$(CC) src/*.cpp -Wall -o huffman
 
 clean:
 	rm -rf doc/ huffman

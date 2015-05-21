@@ -19,7 +19,6 @@ private:
 	std::vector<Node*> copyNodes;
 	std::map<char, int> frequencies;
 
-	bool stop;						// Flag to stop the recursivity
 	Node *root;
 	double entropy;
 	int code_counter;			// quantity of bits utilized to codify a file
@@ -28,13 +27,12 @@ private:
 	int current_size;
 
 	// This hasmpah guarantee the O(1) complexity to update the characters frequencies 
-	std::string code;
 	std::map<char, Node*> huffmanAdp;
 
 	void match_nodes(void);
 	char discover_node(Node * pt, VectorBits * characters);
 	void generate_codes(Node * pt, std::string code);
-	void generate_code(Node * pt, std::string code, char c);
+	std::string generate_code(Node * pt);
 public:
 	Huffman(void);
 	~Huffman(void);

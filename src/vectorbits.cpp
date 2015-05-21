@@ -9,7 +9,7 @@ VectorBits::VectorBits(std::vector<int> bits)
 
 VectorBits::VectorBits(std::string vector)
 {
-	for(int i = 0; i < vector.size(); i++)
+	for(unsigned int i = 0; i < vector.size(); i++)
 	{
 		if(vector[i] == '1')
 			bits.push_back(1);
@@ -122,7 +122,7 @@ const VectorBits & VectorBits::operator=(const VectorBits &v)
 
 std::ostream & operator<<(std::ostream &o, const VectorBits &v)
 {
-	for(int i = 0; i < v.bits.size(); i++)
+	for(unsigned int i = 0; i < v.bits.size(); i++)
 		o << v.bits[i];
 
 	return o;

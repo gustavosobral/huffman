@@ -41,7 +41,7 @@ $ make doc
 
 # Running
 
-After compile the project, execute the follow command to show the usage page:
+After compile the project, execute the follow commands to compress (-c) and extract (-e) a file:
 ~~~~
 $ ./huffman -c pathToFileToCompress.*
 $ ./huffman -e parthToHuffmanFile.huf

@@ -165,7 +165,6 @@ void Files::writeRegularFile(const char * filePath, Huffman * huf)
 
 	if(outputFile.is_open())
 	{
-		char * charc = new char [1];
 		int count = 0;
 		int totalFrequency = huf->getTotalFrequency();
 
