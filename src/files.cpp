@@ -227,6 +227,7 @@ void Files::writeHuffmanFile(const char * filePath, std::map<char, int> * freque
 			{
 				byte = buffer.generate_byte();
 				const char *co = new char((char) byte);
+				huf->destroyHuffmanTree(huf->getRoot());
 
 				outputFile.write(co, sizeof(char));
 				buffer.erase();
@@ -237,6 +238,7 @@ void Files::writeHuffmanFile(const char * filePath, std::map<char, int> * freque
 		buffer.complete();
 		byte = buffer.generate_byte();
 		const char *co = new char((char) byte);
+		huf->destroyHuffmanTree(huf->getRoot());
 
 		outputFile.write(co, sizeof(char));
 

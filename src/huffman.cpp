@@ -191,3 +191,15 @@ char Huffman::readAdaptative(void)
 
 	return c;
 }
+
+void Huffman::destroyHuffmanTree(Node * cur_root)
+{
+	if(cur_root->getLeft()==0 && cur_root->getRight()==0)	
+	{
+		if (cur_root->getFrequency() == -1) delete cur_root;
+		return;
+	} else {
+		if (cur_root->getLeft()!=0)  destroyHuffmanTree(cur_root->getLeft());
+	 	if (cur_root->getRight()!=0)  destroyHuffmanTree(cur_root->getRight());
+	 }
+}

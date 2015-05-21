@@ -41,6 +41,7 @@ public:
 	void extract(const char * filePath);
 	VectorBits * buildAdaptative(char c);
 	char readAdaptative(void);
+	void destroyHuffmanTree(Node * cur_root);
 
 	Node * getRoot(void);
 	int getTotalFrequency(void);
