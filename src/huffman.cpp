@@ -133,7 +133,7 @@ void Huffman::compress(const char * filePath)
 
 	// Write the huffman compressed file using the 'frequencies' to write the header and this to use the huffman adaptative
 	std::clog << "# Saving file..." << std::endl;
-	Files::writeHuffmanFile(filePath, &frequencies, this);
+	Files::writeHuffmanFile(filePath, this);
 
 	l = (double) (code_counter) / (char_counter);
 	std::clog << "# Average lenght: " << l << std::endl;

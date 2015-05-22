@@ -70,7 +70,7 @@ Files::Files(void){}
 Files::~Files(void){}
 
 // Compress initial step
-int Files::readRegularFile(const char * filePath, std::map<char, int> * m)
+int Files::readRegularFile(const char * filePath, std::map<char, int> * frequencies)
 {
 	int char_counter = 0;
 	struct stat sb;
@@ -88,7 +88,7 @@ int Files::readRegularFile(const char * filePath, std::map<char, int> * m)
 	std::ifstream inputFile;
 	inputFile.open(filePath, std::ios::in | std::ios::binary);
 
-	// If it is, fills the HashMap m with characters and frequencies. Else, throw a exception
+	// If it is, fills the HashMap frequencies with characters and frequencies. Else, throw a exception
 	if(inputFile.is_open())
 	{
 		char * charc = new char [1];
@@ -102,7 +102,7 @@ int Files::readRegularFile(const char * filePath, std::map<char, int> * m)
 				break;
 
 			// Increase the frequency of the readed symbol
-			(*m)[*charc] = (*m)[*charc] + 1;
+			(*frequencies)[*charc] = (*frequencies)[*charc] + 1;
 			char_counter++;
 		}
 
@@ -142,7 +142,6 @@ void Files::readHuffmanFile(const char * filePath, VectorBits * characters, std:
 				break;
 
 			// Increase the buffer 'character' with the readed character
-			// (*characters) = (*characters) + VectorBits(*charc);
 			(*characters).push_back(new VectorBits(*charc));
 		}
 
@@ -186,7 +185,7 @@ void Files::writeRegularFile(const char * filePath, Huffman * huf)
 }
 
 // Compress final step
-void Files::writeHuffmanFile(const char * filePath, std::map<char, int> * frequencies, Huffman * huf)
+void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 {
 	std::ifstream inputFile;
 	std::ofstream outputFile;
@@ -206,7 +205,7 @@ void Files::writeHuffmanFile(const char * filePath, std::map<char, int> * freque
 		int byte;
 
 		// Writes the header
-		write_header(filePathOutput.c_str(), frequencies);
+		write_header(filePathOutput.c_str(), huf->getFrequencies());
 
 		huf->setCurrent_size(huf->getChar_counter());
 
@@ -219,7 +218,6 @@ void Files::writeHuffmanFile(const char * filePath, std::map<char, int> * freque
 				break;
 
 			// Increase the buffer of bits with the adaptativeBuilding solution 
-			// buffer = buffer + *huf->buildAdaptative(*charc);
 			buffer.push_back(huf->buildAdaptative(*charc));
 
 			// While the buffer is greater than 8 bits generate bytes for the combination and put it on the output
@@ -248,7 +246,7 @@ void Files::writeHuffmanFile(const char * filePath, std::map<char, int> * freque
 		std::ifstream out(filePathOutput.c_str(), std::ifstream::ate | std::ifstream::binary);
     	
 		std::clog << "  -----------------------------" << std::endl;
-    std::clog << "# Compression rate: " << (double) out.tellg()/in.tellg() << std::endl; 
+    std::clog << "# Compression rate: " << (double) out.tellg() / in.tellg() << std::endl; 
     	
     in.close();
 		out.close();

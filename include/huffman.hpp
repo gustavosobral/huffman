@@ -46,7 +46,7 @@ public:
 	int getTotalFrequency(void);
 	int getChar_counter(void);
 	void setCurrent_size(int);
-	std::map<char, int> *getFrequencies(void);
+	std::map<char, int> * getFrequencies(void);
 };
 
 #endif
