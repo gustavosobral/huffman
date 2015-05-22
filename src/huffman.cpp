@@ -40,7 +40,7 @@ bool compare_nodes(Node* i, Node* j)
   return (i->getFrequency() < j->getFrequency());
 }
 
-void Huffman::match_nodes(void)
+void Huffman::build_tree(void)
 {
 	// Verify if there is only the root node at the vector
 	if(copyNodes.size() == 1)
@@ -56,11 +56,11 @@ void Huffman::match_nodes(void)
 	(*(copyNodes.begin()))->setParent(newNode);
 	(*(copyNodes.begin() + 1))->setParent(newNode);
 
-	// Erase the two frist nodes, put the new node on the end of the list, sort them and call recursive the match_nodes()
+	// Erase the two frist nodes, put the new node on the end of the list, sort them and call recursive the build_tree()
 	copyNodes.erase(copyNodes.begin(), copyNodes.begin() + 2);
 	copyNodes.push_back(newNode);
 	std::stable_sort(copyNodes.begin(), copyNodes.end(), compare_nodes);
-	match_nodes();
+	build_tree();
 }
 
 //	Travels the huffman tree for the leaf to the root building the path referral code
@@ -79,6 +79,21 @@ std::string Huffman::generate_code(Node * pt)
 	}
 	std::reverse(code.begin(), code.end());
 	return code;
+}
+
+void Huffman::destroy_tree(Node * cur_root)
+{
+	if(cur_root->getLeft()== 0 && cur_root->getRight()== 0)	
+	{
+		if (cur_root->getFrequency() == -1)
+		 delete cur_root;
+		return;
+	} else {
+		if (cur_root->getLeft() != 0)
+			destroy_tree(cur_root->getLeft());
+	 	if (cur_root->getRight() != 0)
+	 		destroy_tree(cur_root->getRight());
+	 }
 }
 
 char Huffman::discover_node(Node * pt, VectorBits * characters)
@@ -164,11 +179,13 @@ VectorBits * Huffman::buildAdaptative(char c)
 
 	// Match the nodes building the huffman tree and generate the code to the passed character 'c'
 	Node::resetCounter();
-	match_nodes();
+	build_tree();
 	code = generate_code(huffmanAdp[c]);
 
 	// After the code is generated, the frequency refered to this character needs to be reduced
 	huffmanAdp[c]->reduceFrequency();
+	
+	destroy_tree(root);
 	std::vector<Node*>().swap(copyNodes);
 
 	return new VectorBits(code);
@@ -182,24 +199,14 @@ char Huffman::readAdaptative(void)
 	// Gets the total frequency to knows until what bits are valid symbols
 	std::stable_sort(copyNodes.begin(), copyNodes.end(), compare_nodes);
 	Node::resetCounter();
-	match_nodes();
+	build_tree();
 
 	//	Run the vector of bits until find a valid character. Add this to the output vector of characters and decreased the refered frequency 
 	c = discover_node(root, &characters);
 	huffmanAdp[c]->reduceFrequency();
+
+	destroy_tree(root);
 	std::vector<Node*>().swap(copyNodes);
 
 	return c;
-}
-
-void Huffman::destroyHuffmanTree(Node * cur_root)
-{
-	if(cur_root->getLeft()==0 && cur_root->getRight()==0)	
-	{
-		if (cur_root->getFrequency() == -1) delete cur_root;
-		return;
-	} else {
-		if (cur_root->getLeft()!=0)  destroyHuffmanTree(cur_root->getLeft());
-	 	if (cur_root->getRight()!=0)  destroyHuffmanTree(cur_root->getRight());
-	 }
 }

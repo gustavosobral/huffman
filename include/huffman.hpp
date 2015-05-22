@@ -29,10 +29,10 @@ private:
 	// This hasmpah guarantee the O(1) complexity to update the characters frequencies 
 	std::map<char, Node*> huffmanAdp;
 
-	void match_nodes(void);
-	char discover_node(Node * pt, VectorBits * characters);
-	void generate_codes(Node * pt, std::string code);
+	void build_tree(void);
 	std::string generate_code(Node * pt);
+	void destroy_tree(Node * cur_root);
+	char discover_node(Node * pt, VectorBits * characters);
 public:
 	Huffman(void);
 	~Huffman(void);
@@ -41,7 +41,6 @@ public:
 	void extract(const char * filePath);
 	VectorBits * buildAdaptative(char c);
 	char readAdaptative(void);
-	void destroyHuffmanTree(Node * cur_root);
 
 	Node * getRoot(void);
 	int getTotalFrequency(void);
