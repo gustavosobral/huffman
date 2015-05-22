@@ -52,7 +52,7 @@ public:
 	/** \brief The class constructor.
 	 *
 	 * Initializes the entropy, code_counter and total_frequency
-	 * with zero.
+	 * attributes with zero.
 	 */
 	Huffman(void);
 
