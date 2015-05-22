@@ -49,6 +49,16 @@ Node* Node::getRight(void)
 	return right;
 }
 
+void Node::setLeft(Node * n)
+{
+	this->left = n;
+}
+
+void Node::setRight(Node * n)
+{
+	this->right = n;
+}
+
 Node* Node::getParent(void)
 {
 	return parent;
