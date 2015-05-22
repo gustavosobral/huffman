@@ -1,16 +1,16 @@
 #include "../include/huffman.hpp"
 
 Huffman::Huffman(void){
-	totalFrequency = 0;
-	code_counter = 0;
 	entropy = 0;
+	code_counter = 0;
+	total_frequency = 0;
 }
 
 Huffman::~Huffman(void){}
 
 int Huffman::getTotalFrequency(void)
 {
-	return totalFrequency;
+	return total_frequency;
 }
 
 Node * Huffman::getRoot(void)
@@ -18,14 +18,14 @@ Node * Huffman::getRoot(void)
 	return root;
 }
 
-int Huffman::getChar_counter(void)
+int Huffman::getCharCounter(void)
 {
 	return char_counter;
 }
 
-void Huffman::setCurrent_size(int e)
+void Huffman::setCurrentSize(int current_size)
 {
-	current_size = e;
+	this->current_size = current_size;
 }
 
 
@@ -133,7 +133,7 @@ void Huffman::compress(const char * filePath)
 
 	// Write the huffman compressed file using the 'frequencies' to write the header and this to use the huffman adaptative
 	std::clog << "# Saving file..." << std::endl;
-	Files::writeHuffmanFile(filePath, &frequencies, this);
+	Files::writeHuffmanFile(filePath, this);
 
 	l = (double) (code_counter) / (char_counter);
 	std::clog << "# Average lenght: " << l << std::endl;
@@ -154,7 +154,7 @@ void Huffman::extract(const char * filePath)
 		Node *newNode = new Node(id++, it->first, it->second, 0, 0, 0);
 		nodes.push_back(newNode);
 		huffmanAdp[it->first] = newNode;
-		totalFrequency += it->second;
+		total_frequency += it->second;
 	}
 
 	// Write the descompressed file using the 'descompressed' characters

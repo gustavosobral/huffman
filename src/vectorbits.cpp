@@ -2,11 +2,6 @@
 
 VectorBits::VectorBits(void){}
 
-VectorBits::VectorBits(std::vector<int> bits)
-{
-	this->bits = bits;
-}
-
 VectorBits::VectorBits(std::string vector)
 {
 	for(unsigned int i = 0; i < vector.size(); i++)
@@ -32,7 +27,6 @@ std::vector<int> VectorBits::getBits(void)
 	return bits;
 }
 
-
 int VectorBits::size(void)
 {
 	return bits.size();
@@ -47,7 +41,6 @@ int VectorBits::at(int index)
 {
 	return bits[index];
 }
-
 
 void VectorBits::complete(void)
 {
@@ -67,11 +60,6 @@ int VectorBits::get_front(void)
 	return bits.front();
 }
 
-void VectorBits::pop_front(void)
-{
-	bits.erase(bits.begin());
-}
-
 void VectorBits::delete_front(void)
 {
 	bits.erase(bits.begin());
@@ -88,36 +76,11 @@ int VectorBits::generate_byte(void)
 	return num;
 }
 
-void VectorBits::reserve(int n)
-{
-	bits.reserve(n);
-}
-
 void VectorBits::push_back(VectorBits * vBits)
 {
 
 	for(int i = 0; i < vBits->size(); i++)
 		bits.push_back(vBits->at(i));
-}
-
-VectorBits VectorBits::operator+(const VectorBits &v) const
-{
-	std::vector<int> temp;
-	temp.insert(temp.end(), bits.begin(), bits.end());
-	temp.insert(temp.end(), v.bits.begin(), v.bits.end());
-
-	return VectorBits(temp);
-}
-
-const VectorBits & VectorBits::operator=(const VectorBits &v)
-{
-	if(this != &v) 
-	{
-		bits.clear();
-		bits.insert(bits.begin(), v.bits.begin(), v.bits.end());
-	}
-
-	return *this;
 }
 
 std::ostream & operator<<(std::ostream &o, const VectorBits &v)
