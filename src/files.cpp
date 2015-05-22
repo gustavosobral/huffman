@@ -200,7 +200,6 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 	if(inputFile.is_open() && outputFile.is_open())
 	{
 		VectorBits buffer;
-		buffer.reserve(256);
 		char * charc = new char [1];
 		int byte;
 
