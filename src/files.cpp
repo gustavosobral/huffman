@@ -207,7 +207,7 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 		// Writes the header
 		write_header(filePathOutput.c_str(), huf->getFrequencies());
 
-		huf->setCurrent_size(huf->getChar_counter());
+		huf->setCurrentSize(huf->getCharCounter());
 
 		while(true)
 		{

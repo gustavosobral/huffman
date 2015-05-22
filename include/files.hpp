@@ -19,7 +19,7 @@
 
 class Huffman;
 
-/** \brief Class to handle the operations with files
+/** \brief Handle the operations with files.
  *
  * This class involve all the operations needed to compress 
  * and extract a file using huffman compression algorithm.
@@ -34,7 +34,7 @@ private:
 
 public:
 
-	/** \brief The class constructor
+	/** \brief The class constructor.
 	 *
 	 * There is no need to build a Files object, all methods are static (class).
 	 */
