@@ -70,7 +70,7 @@ Files::Files(void){}
 Files::~Files(void){}
 
 // Compress initial step
-int Files::readRegularFile(const char * filePath, std::map<char, int> * frequencies)
+int Files::readRegularFile(const char * filePath, std::vector<char> * file, std::map<char, int> * frequencies)
 {
 	int char_counter = 0;
 	struct stat sb;
@@ -91,20 +91,20 @@ int Files::readRegularFile(const char * filePath, std::map<char, int> * frequenc
 	// If it is, fills the HashMap frequencies with characters and frequencies. Else, throw a exception
 	if(inputFile.is_open())
 	{
-		char * charc = new char [1];
+		inputFile.seekg(0, std::ios::end);
+		std::size_t size = inputFile.tellg();
+		inputFile.seekg(0, std::ios::beg);
 
-		while(true)
-		{
-			// Reads one character
-			inputFile.read(reinterpret_cast<char *>(charc), sizeof(char));
+		// Reads all file
+		std::vector<char> v (size/sizeof(char));
+		inputFile.read((char *) &v[0], size);
 
-			if(inputFile.eof())
-				break;
+		// Increase the frequency of the readed symbols
+		for(unsigned int i = 0; i < size; i++)
+			(*frequencies)[v[i]] = (*frequencies)[v[i]] + 1;
 
-			// Increase the frequency of the readed symbol
-			(*frequencies)[*charc] = (*frequencies)[*charc] + 1;
-			char_counter++;
-		}
+		char_counter = size;
+		(*file) = v;
 
 		inputFile.close();
 	} else {
@@ -187,21 +187,18 @@ void Files::writeRegularFile(const char * filePath, Huffman * huf)
 // Compress final step
 void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 {
-	std::ifstream inputFile;
 	std::ofstream outputFile;
 
 	std::string filePathOutput(filePath);
 	filePathOutput += ".huf";
 
 	// Open the input and output file
-	inputFile.open(filePath, std::ios::in | std::ios::binary);
 	outputFile.open(filePathOutput.c_str(), std::ios::out | std::ios::binary | std::ios::app);
 
-	if(inputFile.is_open() && outputFile.is_open())
+	if(outputFile.is_open())
 	{
 		VectorBits buffer;
 		VectorBits * generatedCode;
-		char * charc = new char [1];
 		int byte;
 
 		// Writes the header
@@ -209,16 +206,12 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 
 		huf->setCurrentSize(huf->getCharCounter());
 
-		while(true)
+		for(unsigned int i = 0; i < huf->getFile()->size(); i++)
 		{
-			// Reads a character from the inpunt file and stores on 'charc'
-			inputFile.read(reinterpret_cast<char *>(charc), sizeof(char));
+			// Reads a character from the inpunt file storaged in memory and
+			// increase the buffer of bits with the adaptativeBuilding solution
+			generatedCode = huf->buildAdaptative(huf->getFile()->at(i));
 
-			if(inputFile.eof())
-				break;
-
-			// Increase the buffer of bits with the adaptativeBuilding solution
-			generatedCode = huf->buildAdaptative(*charc);
 			buffer.push_back(generatedCode);
 			delete generatedCode;
 
@@ -242,7 +235,6 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 
 		outputFile.write(co, sizeof(char));
 
-		inputFile.close();
 		outputFile.close();
 		delete co;
 

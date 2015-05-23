@@ -28,10 +28,14 @@ void Huffman::setCurrentSize(int current_size)
 	this->current_size = current_size;
 }
 
-
 std::map<char, int>* Huffman::getFrequencies(void)
 {
 	return &frequencies;
+}
+
+std::vector<char> * Huffman::getFile(void)
+{
+	return &file;
 }
 
 // Function to compare two nodes
@@ -113,6 +117,7 @@ std::string Huffman::generate_code(Node * pt)
 		else code = code + "1";
 	}
 	std::reverse(code.begin(), code.end());
+	code_counter = code_counter + code.size();
 	return code;
 }
 
@@ -139,7 +144,7 @@ void Huffman::compress(const char * filePath)
 
 	// Reading the regular file to find this initial 'frequencies'
 	std::clog << "# Reading file..." << std::endl;
-	char_counter = Files::readRegularFile(filePath, &frequencies);
+	char_counter = Files::readRegularFile(filePath, &file, &frequencies);
 
 	std::clog << "# Generating huffman codes..." << std::endl;
 	// Fill the 'nodes' vector and hashmap 'huffmanAdp'

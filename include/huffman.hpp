@@ -33,6 +33,8 @@ private:
 	std::vector<Node*> copyNodes;
 	std::map<char, int> frequencies;
 
+	std::vector<char> file;
+
 	Node *root;
 	double entropy;
 	int code_counter;			// quantity of bits utilized to codify a file
@@ -144,6 +146,11 @@ public:
 	 * \return Pointer to the frequencies map.
 	 */
 	std::map<char, int> * getFrequencies(void);
+
+	/** \brief Gets the input file.
+	 * \return Pointer to the vector<char> of the input file.
+	 */
+	std::vector<char> * getFile(void);
 
 	/** \brief Sets the value of current_size.
 	 * \param current_size The value to be attributed to current_size.
