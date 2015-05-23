@@ -1,6 +1,8 @@
 Introduction to Information Theory - UFPB - 2015.1
 ====================
 
+[![Build Status](https://api.travis-ci.org/gustavosobral/huffman.svg?branch=master)](https://travis-ci.org/gustavosobral/huffman)
+
 This repository is from the version control of the implementation of the adaptive Huffman coding algorithm [1] on the class **Introduction to Information Theory** [2] over the responsibility of the teacher Derzu Omaia on the semester **2015.1** of the Federal University of Paraiba (**UFPB - Brazil**). The code is writted in C++ using only the STL.
 
 - - -
