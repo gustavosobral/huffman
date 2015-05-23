@@ -200,6 +200,7 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 	if(inputFile.is_open() && outputFile.is_open())
 	{
 		VectorBits buffer;
+		VectorBits * generatedCode;
 		char * charc = new char [1];
 		int byte;
 
@@ -216,8 +217,10 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 			if(inputFile.eof())
 				break;
 
-			// Increase the buffer of bits with the adaptativeBuilding solution 
-			buffer.push_back(huf->buildAdaptative(*charc));
+			// Increase the buffer of bits with the adaptativeBuilding solution
+			generatedCode = huf->buildAdaptative(*charc);
+			buffer.push_back(generatedCode);
+			delete generatedCode;
 
 			// While the buffer is greater than 8 bits generate bytes for the combination and put it on the output
 			while(buffer.size() >= 8)
@@ -226,7 +229,9 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 				const char *co = new char((char) byte);
 
 				outputFile.write(co, sizeof(char));
+
 				buffer.erase();
+				delete co;
 			}
 		}
 
@@ -239,6 +244,7 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 
 		inputFile.close();
 		outputFile.close();
+		delete co;
 
 		// Opens again the input and output file to compute the compression rate
 		std::ifstream in(filePath, std::ifstream::ate | std::ifstream::binary);

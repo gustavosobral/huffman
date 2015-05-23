@@ -44,9 +44,7 @@ private:
 	std::map<char, Node*> huffmanAdp;
 
 	void build_tree(void);
-
-	void saving_leafs(Node * cur_root);
-
+	
 	/** \brief Save leafs for next tree.
 	 *
 	 * Prepare the Huffman Tree to the destrution process, by  
@@ -56,8 +54,7 @@ private:
 	 *
 	 * \param cur_root Pointer with the pointer to the tree root.
 	 */
-
-	void destroy_tree(Node * cur_root);
+	void saving_leafs(Node * cur_root);
 
 	/** \brief Destroy Huffman tree.
 	 *
@@ -66,9 +63,11 @@ private:
 	 *
 	 * \param cur_root Pointer with the pointer to the tree root.
 	 */
+	void destroy_tree(Node * cur_root);
+
 	std::string generate_code(Node * pt);
-	
 	char discover_node(Node * pt, VectorBits * characters);
+
 public:
 
 	/** \brief The class constructor.

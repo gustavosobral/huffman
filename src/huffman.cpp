@@ -66,6 +66,38 @@ void Huffman::build_tree(void)
 	build_tree();
 }
 
+// Saves the leafs for the next Huffman tree
+void Huffman::saving_leafs(Node * cur_root)
+{
+	if (cur_root->getLeft() == NULL && cur_root->getRight() == NULL)
+		return;	
+
+	if(cur_root->getLeft() != NULL)
+	 saving_leafs(cur_root->getLeft());
+
+	if(cur_root->getRight() != NULL)
+	 saving_leafs(cur_root->getRight());
+
+	if(cur_root->getLeft() != 0 && cur_root->getLeft()->getId() < 256)
+		cur_root->setLeft(NULL);
+
+	if(cur_root->getRight() != 0 && cur_root->getRight()->getId() < 256)
+		cur_root->setRight(NULL);
+}
+
+// Destroy the builded tree, saving memory
+void Huffman::destroy_tree(Node * cur_root)
+{
+	if (cur_root==NULL || cur_root==0)
+		return;
+	
+	destroy_tree(cur_root->getLeft());
+	destroy_tree(cur_root->getRight());
+
+	delete cur_root;
+	cur_root = NULL;
+}
+
 //	Travels the huffman tree for the leaf to the root building the path referral code
 std::string Huffman::generate_code(Node * pt)
 {
@@ -149,31 +181,6 @@ void Huffman::extract(const char * filePath)
 	std::clog << "# Saving file..." << std::endl;
 	Files::writeRegularFile(filePath, this);
 }
-
-void Huffman::saving_leafs(Node * cur_root)
-{
-	if (cur_root->getLeft() == NULL && cur_root->getRight() == NULL)	return;	
-
-	if(cur_root->getLeft()!=NULL) saving_leafs(cur_root->getLeft());
-	if(cur_root->getRight()!=NULL) saving_leafs(cur_root->getRight());
-
-	if(cur_root->getLeft()!=0 && cur_root->getLeft()->getId() < 256) 	cur_root->setLeft(NULL);
-
-	if(cur_root->getRight()!=0 && cur_root->getRight()->getId() < 256) 	cur_root->setRight(NULL);
-
-}
-
-void Huffman::destroy_tree(Node * cur_root)
-{
-	if (cur_root==NULL || cur_root==0)	return;
-	
-	destroy_tree(cur_root->getLeft());
-	destroy_tree(cur_root->getRight());
-
-	delete cur_root;
-	cur_root = NULL;
-}
-
 
 // Build the VectorBits refered to char 'c' in adaptative algorithm way
 VectorBits * Huffman::buildAdaptative(char c)

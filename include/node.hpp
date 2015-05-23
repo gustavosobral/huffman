@@ -76,20 +76,17 @@ public:
 	/** \brief Gets the pointer for the parent node.
 	 * \return The pointer to parent.
 	 */
-
-	void setLeft(Node * n);
-	
-	/** \brief Sets the left node.
-	 * \param n Pointer to left node.
-	 */
-	
-	void setRight(Node * n);
-	
-	/** \brief Sets the right node.
-	 * \param n Pointer to right node.
-	 */
-	 
 	Node* getParent(void);
+
+	/** \brief Sets the left node.
+	 * \param left Pointer to left node.
+	 */
+	void setLeft(Node * left);
+
+	/** \brief Sets the right node.
+	 * \param right Pointer to right node.
+	 */
+	void setRight(Node * right);	
 
 	/** \brief Sets the parent node.
 	 * \param parent Pointer to the parent.
@@ -98,7 +95,6 @@ public:
 	
 	/** \brief Reduce the node frequency by one.
 	 */
-
 	void reduceFrequency(void);
 
 	/** \brief Reset the id counter to 256.
