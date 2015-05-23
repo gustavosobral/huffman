@@ -50,8 +50,11 @@ void Huffman::build_tree(void)
 	}
 	
 	// Creates a new node matching the two firsts node
-	Node *newNode = new Node((char) -1, (*(copyNodes.begin()))->getFrequency() + (*(copyNodes.begin() + 1))->getFrequency(),
+	Node *newNode = NULL;
+
+	newNode = new Node((char) -1, (*(copyNodes.begin()))->getFrequency() + (*(copyNodes.begin() + 1))->getFrequency(),
 															 *(copyNodes.begin()), *(copyNodes.begin() + 1), 0);
+
 
 	(*(copyNodes.begin()))->setParent(newNode);
 	(*(copyNodes.begin() + 1))->setParent(newNode);
@@ -79,21 +82,6 @@ std::string Huffman::generate_code(Node * pt)
 	}
 	std::reverse(code.begin(), code.end());
 	return code;
-}
-
-void Huffman::destroy_tree(Node * cur_root)
-{
-	if(cur_root->getLeft()== 0 && cur_root->getRight()== 0)	
-	{
-		if (cur_root->getFrequency() == -1)
-		 delete cur_root;
-		return;
-	} else {
-		if (cur_root->getLeft() != 0)
-			destroy_tree(cur_root->getLeft());
-	 	if (cur_root->getRight() != 0)
-	 		destroy_tree(cur_root->getRight());
-	 }
 }
 
 char Huffman::discover_node(Node * pt, VectorBits * characters)
@@ -162,6 +150,31 @@ void Huffman::extract(const char * filePath)
 	Files::writeRegularFile(filePath, this);
 }
 
+void Huffman::saving_leafs(Node * cur_root)
+{
+	if (cur_root->getLeft() == NULL && cur_root->getRight() == NULL)	return;	
+
+	if(cur_root->getLeft()!=NULL) saving_leafs(cur_root->getLeft());
+	if(cur_root->getRight()!=NULL) saving_leafs(cur_root->getRight());
+
+	if(cur_root->getLeft()!=0 && cur_root->getLeft()->getId() < 256) 	cur_root->setLeft(NULL);
+
+	if(cur_root->getRight()!=0 && cur_root->getRight()->getId() < 256) 	cur_root->setRight(NULL);
+
+}
+
+void Huffman::destroy_tree(Node * cur_root)
+{
+	if (cur_root==NULL || cur_root==0)	return;
+	
+	destroy_tree(cur_root->getLeft());
+	destroy_tree(cur_root->getRight());
+
+	delete cur_root;
+	cur_root = NULL;
+}
+
+
 // Build the VectorBits refered to char 'c' in adaptative algorithm way
 VectorBits * Huffman::buildAdaptative(char c)
 {
@@ -180,11 +193,13 @@ VectorBits * Huffman::buildAdaptative(char c)
 	// Match the nodes building the huffman tree and generate the code to the passed character 'c'
 	Node::resetCounter();
 	build_tree();
+	
 	code = generate_code(huffmanAdp[c]);
 
 	// After the code is generated, the frequency refered to this character needs to be reduced
 	huffmanAdp[c]->reduceFrequency();
 	
+	saving_leafs(root);
 	destroy_tree(root);
 	std::vector<Node*>().swap(copyNodes);
 
@@ -205,6 +220,7 @@ char Huffman::readAdaptative(void)
 	c = discover_node(root, &characters);
 	huffmanAdp[c]->reduceFrequency();
 
+	saving_leafs(root);
 	destroy_tree(root);
 	std::vector<Node*>().swap(copyNodes);
 
