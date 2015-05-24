@@ -15,6 +15,7 @@
 #include <cmath>			//	log2()
 #include <string>			//	std::string
 #include <vector>			//	std::vector
+#include <iomanip>		//	std::setprecision()
 #include <iostream>		//	std::cout
 #include <algorithm>	//	std::sort()
 
@@ -151,6 +152,11 @@ public:
 	 * \return Pointer to the vector<char> of the input file.
 	 */
 	std::vector<char> * getFile(void);
+
+	/** \brief Sets the value of char_counter.
+	 * \param char_counter The value to be attributed to char_counter.
+	 */
+	void setCharCounter(int char_counter);
 
 	/** \brief Sets the value of current_size.
 	 * \param current_size The value to be attributed to current_size.

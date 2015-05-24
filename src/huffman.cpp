@@ -23,6 +23,11 @@ int Huffman::getCharCounter(void)
 	return char_counter;
 }
 
+void Huffman::setCharCounter(int char_counter)
+{
+	this->char_counter = char_counter;
+}
+
 void Huffman::setCurrentSize(int current_size)
 {
 	this->current_size = current_size;
@@ -143,10 +148,10 @@ void Huffman::compress(const char * filePath)
 	double l; // average length
 
 	// Reading the regular file to find this initial 'frequencies'
+	std::clog << std::setprecision(2);
 	std::clog << "# Reading file..." << std::endl;
 	char_counter = Files::readRegularFile(filePath, &file, &frequencies);
 
-	std::clog << "# Generating huffman codes..." << std::endl;
 	// Fill the 'nodes' vector and hashmap 'huffmanAdp'
 	int id = 0;
 	for(std::map<char, int>::iterator it = frequencies.begin(); it != frequencies.end(); it++)
@@ -157,7 +162,7 @@ void Huffman::compress(const char * filePath)
 	}
 
 	// Write the huffman compressed file using the 'frequencies' to write the header and this to use the huffman adaptative
-	std::clog << "# Saving file..." << std::endl;
+	std::clog << "# Compressing... " << std::endl;
 	Files::writeHuffmanFile(filePath, this);
 
 	l = (double) (code_counter) / (char_counter);
@@ -168,11 +173,11 @@ void Huffman::compress(const char * filePath)
 void Huffman::extract(const char * filePath)
 {
 	// Reads the compressed file keeping the readed 'characters' and their 'frequencies'
+	std::clog << std::setprecision(2);
 	std::clog << "# Reading file..." << std::endl;
 	Files::readHuffmanFile(filePath, &characters, &frequencies);
 
 	// It will generate the leaf (characters) nodes for the Huffman tree 
-	std::clog << "# Generating characters..." << std::endl;
 	int id = 0;
 	for(std::map<char, int>::iterator it=frequencies.begin(); it!=frequencies.end(); it++)
 	{
@@ -183,7 +188,7 @@ void Huffman::extract(const char * filePath)
 	}
 
 	// Write the descompressed file using the 'descompressed' characters
-	std::clog << "# Saving file..." << std::endl;
+	std::clog << "# Extracting... " << std::endl;
 	Files::writeRegularFile(filePath, this);
 }
 
@@ -195,6 +200,7 @@ VectorBits * Huffman::buildAdaptative(char c)
 	// Fills the copyNodes vector with the nodes to be matched 
 	copyNodes = nodes;
 
+	std::clog <<  "\r# [" << 100 * ((char_counter - current_size) / (float) char_counter) << "\%] concluded... \b\b\b" << std::flush;
 	double P = (double) (huffmanAdp[c]->getFrequency()) / current_size;
 	entropy += (log2(1/P))/char_counter;
 	current_size--;
@@ -222,6 +228,9 @@ char Huffman::readAdaptative(void)
 {
 	char c;
 	copyNodes = nodes;
+
+	std::clog <<  "\r# [" << 100 * ((char_counter - current_size) / (float) char_counter) << "\%] concluded... \b\b\b" << std::flush;
+	current_size--;
 
 	// Gets the total frequency to knows until what bits are valid symbols
 	std::stable_sort(copyNodes.begin(), copyNodes.end(), compare_nodes);

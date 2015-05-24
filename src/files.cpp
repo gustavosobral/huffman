@@ -73,9 +73,9 @@ Files::~Files(void){}
 // Compress initial step
 int Files::readRegularFile(const char * filePath, std::vector<char> * file, std::map<char, int> * frequencies)
 {
-	int char_counter = 0;
 	struct stat sb;
 	stat(filePath, &sb);
+	int char_counter = 0;
 
 	// Verify if the filePath passed is a regular file
 	if(!S_ISREG(sb.st_mode))
@@ -167,6 +167,9 @@ void Files::writeRegularFile(const char * filePath, Huffman * huf)
 		int count = 0;
 		int totalFrequency = huf->getTotalFrequency();
 
+		huf->setCurrentSize(totalFrequency);
+		huf->setCharCounter(totalFrequency);
+
 		// While the number of processed characters are not equal to the total of the original file
 		while(count != totalFrequency)
 		{
@@ -182,6 +185,8 @@ void Files::writeRegularFile(const char * filePath, Huffman * huf)
 		std::snprintf(buf, sizeof buf, "Error: Unable to open '%s'%s", filePath, " file!");
 		throw std::invalid_argument(buf);
 	}
+
+	std::clog << "\r# Concluded...            " << std::endl;
 }
 
 // Compress final step
@@ -241,7 +246,9 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
 		// Opens again the input and output file to compute the compression rate
 		std::ifstream in(filePath, std::ifstream::ate | std::ifstream::binary);
 		std::ifstream out(filePathOutput.c_str(), std::ifstream::ate | std::ifstream::binary);
-    	
+    
+    std::clog << "\r# Concluded...            " << std::endl;
+   	std::clog << std::setprecision(4);
 		std::clog << "  -----------------------------" << std::endl;
     std::clog << "# Compression rate: " << (double) out.tellg() / in.tellg() << std::endl; 
     	
