@@ -31,7 +31,7 @@ void write_header(const char * filePath, std::map<char, int> * frequencies)
 	}
 }
 
-void read_header(const char * filePath, std::map<char, int> * frequencies)
+int read_header(const char * filePath, std::map<char, int> * frequencies)
 {
 	std::ifstream inputFile;
 
@@ -58,6 +58,7 @@ void read_header(const char * filePath, std::map<char, int> * frequencies)
 		}
 
 		inputFile.close();
+		return headerSize;
 	} else {
 		char buf[256];
 		std::snprintf(buf, sizeof buf, "Error: While reading header, unable to open '%s'%s", filePath, " file!");
@@ -124,26 +125,25 @@ void Files::readHuffmanFile(const char * filePath, VectorBits * characters, std:
 
 	if(inputFile.is_open())
 	{
-		int * integ = new int [1];
-		char * charc = new char [1];
+		int headerSize;
 
-		// Reads the header and fill the frequencies HashMap
-		read_header(filePath, frequencies);
+		// Reads the header and fill the frequencies HashMap. Returns the header size
+		headerSize = read_header(filePath, frequencies);
 
-		// Reads the header size and ignore it (It was already readed)
-		inputFile.read(reinterpret_cast<char *>(integ), sizeof(int));
-		inputFile.ignore((*integ)*5);
+		inputFile.seekg(0, std::ios::end);
+		std::size_t size = inputFile.tellg();
+		size = size - (headerSize*5);
 
-		while(true)
-		{
-			inputFile.read(reinterpret_cast<char *>(charc), sizeof(char));
+		inputFile.seekg(0, std::ios::beg);
+		inputFile.ignore(4 + headerSize*5);
 
-			if(inputFile.eof())
-				break;
+		// Reads all file
+		std::vector<char> v (size/sizeof(char));
+		inputFile.read((char *) &v[0], size);
 
-			// Increase the buffer 'character' with the readed character
-			(*characters).push_back(new VectorBits(*charc));
-		}
+		// Increase the buffer 'character' with the readed character
+		for(unsigned int i = 0; i < size; i++)
+			(*characters).push_back(new VectorBits(v[i]));
 
 		inputFile.close();
 	} else {
