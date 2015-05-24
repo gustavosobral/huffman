@@ -128,18 +128,26 @@ std::string Huffman::generate_code(Node * pt)
 
 char Huffman::discover_node(Node * pt, VectorBits * characters)
 {
-	// Verify if is a leaf node and stopping retrieving his 'id' If is not, goes to the left or right depending on the fron bit of 'characters'
-	if(pt->getLeft() == 0 && pt->getRight() == 0)
+	// Verify if is a leaf node and stopping retrieving his 'carac'.
+	// If is not, iteracts to the left or right depending on the front bit of 'characters'
+
+	Node * it;
+	it = pt;
+
+	while(true)
 	{
-		return pt->getCarac();
-	} else if(characters->get_front() == 0)
-	{
-		characters->delete_front();
-		discover_node(pt->getLeft(), characters);
-	} else if(characters->get_front() == 1)
-	{
-		characters->delete_front();
-		discover_node(pt->getRight(), characters);
+		if(it->getLeft() == 0 && it->getRight() == 0)
+			return it->getCarac();
+
+		if (characters->get_front() == 0)
+		{
+			characters->delete_front();
+			it = it->getLeft();
+		} else if (characters->get_front() == 1)
+		{
+			characters->delete_front();
+			it = it->getRight();
+		}
 	}
 }
 

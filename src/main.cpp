@@ -10,21 +10,21 @@
 #include <map>				//	std::map
 
 const char * __progname = "huffman";
-const char * __version = "0.0.1";
-const char * __extension = ".huf";
+const char * __version = "1.0";
+const char * __authors = "Gustavo Sobral and Francielly Cardoso";
 
 static void usage(void)
 {
-	std::cout << std::endl;
-	std::cout << __progname << " version " << __version << " by Gustavo Sobral and Francielly Cardoso" << std::endl;
-	std::cout << "Copyright (C) 2015" << std::endl;
-	std::cout << std::endl;
-	std::cout << "Usage: 	" << __progname << " <command> <file>" << std::endl;
-	std::cout << std::endl;
-	std::cout << "<Commands>" << std::endl;
-	std::cout << " -c 		Compress file" << std::endl;
-	std::cout << " -e 		Extract file" << std::endl;
-	std::cout << " -h 		Show this help message" << std::endl;
+	std::clog << std::endl;
+	std::clog << "HUFFMAN version " << __version << std::endl;
+	std::clog << "Copyright (C) 2015 " << __authors << std::endl;
+	std::clog << std::endl;
+	std::clog << "Usage: 	" << __progname << " <command> <file>" << std::endl;
+	std::clog << std::endl;
+	std::clog << "<Commands>" << std::endl;
+	std::clog << " -c 		Compress file" << std::endl;
+	std::clog << " -e 		Extract file" << std::endl;
+	std::clog << " -h 		Show this help message" << std::endl;
 }
 
 int main(int argc, char * argv[], char * envp[])

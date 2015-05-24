@@ -249,7 +249,7 @@ void Files::writeHuffmanFile(const char * filePath, Huffman * huf)
     
     std::clog << "\r# Concluded...            " << std::endl;
    	std::clog << std::setprecision(4);
-		std::clog << "  -----------------------------" << std::endl;
+		std::clog << "\n  --------------- [ Compression Quality ] ---------------\n" << std::endl;
     std::clog << "# Compression rate: " << (double) out.tellg() / in.tellg() << std::endl; 
     	
     in.close();
