@@ -51,10 +51,11 @@ public:
 	 * This is the first method on compress step.
 	 *
 	 * \param filePath Pointer with the path to file.
+	 * \param file Pointer to a vector for save the readed file characters.
 	 * \param frequencies Pointer to a map for save the readed file characters frequencies.
 	 * \return Integer with the number of characters readed.
 	 */
-	static int readRegularFile(const char * filePath, std::map<char, int> * frequencies);
+	static int readRegularFile(const char * filePath, std::vector<char> * file, std::map<char, int> * frequencies);
 
 	/** \brief Read a compressed (Huffman) file.
 	 *
