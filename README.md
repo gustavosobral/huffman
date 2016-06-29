@@ -21,7 +21,7 @@ To generate the documentation, you will need:
 ## References
 
 [1] http://en.wikipedia.org/wiki/Adaptive_Huffman_coding <br>
-[2] https://sites.google.com/site/derzuomaia/disciplinas/introducao-a-teoria-da-informacao <br> (Portuguese)
+[2] https://sites.google.com/site/derzuomaia/disciplinas/introducao-a-teoria-da-informacao (Portuguese) <br>
 [3] http://valgrind.org/ <br>
 
 - - -
