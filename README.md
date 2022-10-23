@@ -2,13 +2,14 @@
 
 [![Build Status](https://api.travis-ci.org/gustavosobral/huffman.svg?branch=master)](https://travis-ci.org/gustavosobral/huffman)
 
-This repository is from the version control of the adaptive Huffman coding algorithm [1] implementation on the **Introduction to Information Theory** [2] class over the responsibility of the teacher Derzu Omaia on the semester **2015.1** at Federal University of Paraiba (**UFPB - Brazil**). The code is writted in C++ using only the STL.
+This is an implementation of the Adaptive Huffman coding algorithm [1]. The code is writted in C++ using only the STL.
 
-- - -
-## Team
+---
 
-Francielly Cardoso Grigório <ciellycardoso@gmail.com> <br>
-Gustavo Henrique da Silva Sobral <ghsobral@gmail.com> <br>
+## Contributors
+
+- Francielly Grigório
+- Gustavo Sobral
 
 ## Requirements
 
@@ -18,13 +19,7 @@ For build and run this project you will need these requirements satisfied:
 To generate the documentation, you will need:
 - Doxygen 1.8.6+
 
-## References
-
-[1] http://en.wikipedia.org/wiki/Adaptive_Huffman_coding <br>
-[2] https://sites.google.com/site/derzuomaia/disciplinas/introducao-a-teoria-da-informacao (Portuguese) <br>
-[3] http://valgrind.org/ <br>
-
-- - -
+---
 ## Make
 
 For clean and build the project execute this commands (See Requirements):
@@ -47,3 +42,9 @@ After compile the project, execute the follow commands to compress (-c) and extr
 $ ./huffman -c pathToFileToCompress.*
 $ ./huffman -e parthToHuffmanFile.huf
 ~~~~
+
+## References
+
+[1] http://en.wikipedia.org/wiki/Adaptive_Huffman_coding
+[2] https://sites.google.com/site/derzuomaia/disciplinas/introducao-a-teoria-da-informacao (Portuguese)
+[3] http://valgrind.org/
